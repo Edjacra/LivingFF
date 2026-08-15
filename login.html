@@ -142,7 +142,23 @@
 <!-- =========================================================
      FIREBASE BACKEND — Buyer / Seller log in, session, log out
      Replace firebaseConfig below with YOUR project's config
-     (Firebase Console → Project settings → General → Your apps).
+     (// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDowR90ZdEUo3PGFXe0JuwFMBegxYo7Tuc",
+  authDomain: "living-fauntains.firebaseapp.com",
+  projectId: "living-fauntains",
+  storageBucket: "living-fauntains.firebasestorage.app",
+  messagingSenderId: "504265549102",
+  appId: "1:504265549102:web:ee6cd3f93ee065f3c8c6bf"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);).
      Must match the SAME config used in get-started.html.
      Docs: https://firebase.google.com/docs/web/setup
      ========================================================= -->
