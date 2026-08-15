@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Get Started · Living Fountains Farm</title>
+<meta name="description" content="Join Living Fountains Farm as a buyer or seller. Register in minutes and get onboarded fast.">
+<link rel="canonical" href="https://livingfountainsfarm.co.ke/get-started.html">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="navbar">
+    <a href="index.html" class="logo-link">
+      <img src="assets/logo.png" alt="Living Fountains Farm logo" style="height:52px;width:auto;display:block;">
+    </a>
+    <div class="nav-menu-wrap" id="navMenu">
+      <ul class="nav-links">
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="for-buyers.html">For Buyers</a></li>
+        <li><a href="for-sellers.html">For Sellers</a></li>
+        <li><a href="faqs.html">FAQs</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="login.html" class="btn btn-ghost btn-small">Log in</a>
+        <a href="get-started.html" class="btn btn-primary btn-small">Get Started</a>
+      </div>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+  </div>
+</header>
+
+<div class="auth-shell">
+  <div class="auth-card">
+    <div class="auth-header">
+      <span class="eyebrow">Join Living Fountains Farm</span>
+      <h2 style="margin-bottom:6px;">Create your account</h2>
+      <p style="color:var(--lf-mist); margin:0;">Tell us who you are to get the right sign-up form.</p>
+    </div>
+
+    <div class="role-toggle">
+      <button class="role-btn active" data-role="buyer" id="signupBuyerTab">As a Buyer</button>
+      <button class="role-btn" data-role="seller" id="signupSellerTab">As a Seller</button>
+    </div>
+
+    <!-- Buyer sign up -->
+    <form class="auth-panel active" id="signupBuyerPanel">
+      <div class="form-group">
+        <label>Business Name *</label>
+        <input type="text" name="businessName" placeholder="Your business name" required>
+      </div>
+      <div class="form-group">
+        <label>Business Address *</label>
+        <input type="text" name="businessAddress" placeholder="Street, town, county" required>
+      </div>
+      <div class="form-group">
+        <label>Business Registration Number *</label>
+        <input type="text" name="regNumber" placeholder="e.g. BN-XXXXXXX" required>
+      </div>
+      <div class="form-group">
+        <label>Kenyan National ID Number *</label>
+        <input type="text" name="idNumber" placeholder="National ID" required>
+      </div>
+      <div class="form-group">
+        <label>Email Address *</label>
+        <input type="email" name="email" placeholder="you@business.co.ke" required>
+      </div>
+      <div class="form-group">
+        <label>Create Password *</label>
+        <input type="password" name="password" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Create Buyer Account</button>
+    </form>
+
+    <!-- Seller sign up -->
+    <form class="auth-panel" id="signupSellerPanel">
+      <div class="form-group">
+        <label>Full Name *</label>
+        <input type="text" name="fullName" placeholder="Your full name" required>
+      </div>
+      <div class="form-group">
+        <label>Kenyan National ID Number *</label>
+        <input type="text" name="idNumber" placeholder="National ID" required>
+      </div>
+      <div class="form-group">
+        <label>M-PESA Mobile Number *</label>
+        <input type="tel" name="mpesa" placeholder="07XX XXX XXX" required>
+      </div>
+      <div class="form-group">
+        <label>Email Address (optional)</label>
+        <input type="email" name="email" placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label>Create Password *</label>
+        <input type="password" name="password" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Create Seller Account</button>
+    </form>
+
+    <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-bottom" style="border-top:none; padding-top:30px;">
+    <p>© 2026 Living Fountains Farm. All rights reserved.</p>
+    <a href="privacy-policy.html">Privacy Policy</a>
+  </div>
+</footer>
+
+<a href="https://wa.me/254114114131" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+
+<script src="script.js"></script>
+<script>
+  (function() {
+    const buyerTab = document.getElementById('signupBuyerTab');
+    const sellerTab = document.getElementById('signupSellerTab');
+    const buyerPanel = document.getElementById('signupBuyerPanel');
+    const sellerPanel = document.getElementById('signupSellerPanel');
+    buyerTab.addEventListener('click', () => {
+      buyerTab.classList.add('active'); sellerTab.classList.remove('active');
+      buyerPanel.classList.add('active'); sellerPanel.classList.remove('active');
+    });
+    sellerTab.addEventListener('click', () => {
+      sellerTab.classList.add('active'); buyerTab.classList.remove('active');
+      sellerPanel.classList.add('active'); buyerPanel.classList.remove('active');
+    });
+    [buyerPanel, sellerPanel].forEach(form => {
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        alert('This is a demo sign-up form. Connect it to your backend/database to go live.');
+      });
+    });
+  })();
+</script>
+</body>
+</html>
