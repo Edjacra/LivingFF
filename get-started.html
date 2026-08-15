@@ -1,3 +1,4 @@
+ted · HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,11 +9,29 @@
 <link rel="canonical" href="https://livingfountainsfarm.co.ke/get-started.html">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="icon" type="image/png" href=''favicon.png">
+<link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="stylesheet" href="style.css">
+<style>
+  .google-btn {
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    width:100%; padding:12px; border-radius:999px; border:1px solid var(--lf-border);
+    background:#fff; font-family:var(--font-body); font-weight:600; font-size:0.9rem;
+    color:var(--lf-ink); cursor:pointer; margin-bottom:16px;
+  }
+  .google-btn:hover { border-color:var(--lf-teal); }
+  .google-btn img { width:18px; height:18px; }
+  .auth-status { margin-top:14px; font-size:0.88rem; text-align:center; min-height:20px; }
+  .auth-status.error { color:#a33; }
+  .auth-status.success { color:var(--lf-teal); }
+  .auth-status.info { color:var(--lf-mist); }
+  .google-locked { background:var(--lf-teal-tint); border:1px solid var(--lf-teal); border-radius:10px; padding:10px 14px; font-size:0.85rem; margin-bottom:16px; display:none; align-items:center; justify-content:space-between; gap:10px; }
+  .google-locked.show { display:flex; }
+  .google-locked button { background:none; border:none; color:var(--lf-clay); font-size:0.8rem; cursor:pointer; font-weight:600; }
+  button[disabled] { opacity:0.6; cursor:not-allowed; }
+</style>
 </head>
 <body>
-
+ 
 <header class="header">
   <div class="navbar">
     <a href="index.html" class="logo-link">
@@ -34,7 +53,7 @@
     <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
   </div>
 </header>
-
+ 
 <div class="auth-shell">
   <div class="auth-card">
     <div class="auth-header">
@@ -42,14 +61,23 @@
       <h2 style="margin-bottom:6px;">Create your account</h2>
       <p style="color:var(--lf-mist); margin:0;">Tell us who you are to get the right sign-up form.</p>
     </div>
-
+ 
     <div class="role-toggle">
       <button class="role-btn active" data-role="buyer" id="signupBuyerTab">As a Buyer</button>
       <button class="role-btn" data-role="seller" id="signupSellerTab">As a Seller</button>
     </div>
-
+ 
     <!-- Buyer sign up -->
     <form class="auth-panel active" id="signupBuyerPanel">
+      <button type="button" class="google-btn" id="googleBuyerBtn">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="">
+        Continue with Google
+      </button>
+      <div class="google-locked" id="googleBuyerLocked">
+        <span>Signed in with Google as <strong id="googleBuyerEmail"></strong></span>
+        <button type="button" id="googleBuyerCancel">Use email instead</button>
+      </div>
+ 
       <div class="form-group">
         <label>Business Name *</label>
         <input type="text" name="businessName" placeholder="Your business name" required>
@@ -66,19 +94,29 @@
         <label>Kenyan National ID Number *</label>
         <input type="text" name="idNumber" placeholder="National ID" required>
       </div>
-      <div class="form-group">
+      <div class="form-group" id="buyerEmailGroup">
         <label>Email Address *</label>
         <input type="email" name="email" placeholder="you@business.co.ke" required>
       </div>
-      <div class="form-group">
+      <div class="form-group" id="buyerPasswordGroup">
         <label>Create Password *</label>
-        <input type="password" name="password" placeholder="••••••••" required>
+        <input type="password" name="password" placeholder="••••••••" minlength="6" required>
       </div>
-      <button type="submit" class="btn btn-primary btn-block">Create Buyer Account</button>
+      <button type="submit" class="btn btn-primary btn-block" id="buyerSubmitBtn">Create Buyer Account</button>
+      <div class="auth-status" id="buyerStatus"></div>
     </form>
-
+ 
     <!-- Seller sign up -->
     <form class="auth-panel" id="signupSellerPanel">
+      <button type="button" class="google-btn" id="googleSellerBtn">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="">
+        Continue with Google
+      </button>
+      <div class="google-locked" id="googleSellerLocked">
+        <span>Signed in with Google as <strong id="googleSellerEmail"></strong></span>
+        <button type="button" id="googleSellerCancel">Use email instead</button>
+      </div>
+ 
       <div class="form-group">
         <label>Full Name *</label>
         <input type="text" name="fullName" placeholder="Your full name" required>
@@ -95,48 +133,229 @@
         <label>Email Address (optional)</label>
         <input type="email" name="email" placeholder="you@example.com">
       </div>
-      <div class="form-group">
+      <div class="form-group" id="sellerPasswordGroup">
         <label>Create Password *</label>
-        <input type="password" name="password" placeholder="••••••••" required>
+        <input type="password" name="password" placeholder="••••••••" minlength="6" required>
       </div>
-      <button type="submit" class="btn btn-primary btn-block">Create Seller Account</button>
+      <button type="submit" class="btn btn-primary btn-block" id="sellerSubmitBtn">Create Seller Account</button>
+      <div class="auth-status" id="sellerStatus"></div>
     </form>
-
+ 
     <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
   </div>
 </div>
-
+ 
 <footer class="footer">
   <div class="container footer-bottom" style="border-top:none; padding-top:30px;">
     <p>© 2026 Living Fountains Farm. All rights reserved.</p>
     <a href="privacy-policy.html">Privacy Policy</a>
   </div>
 </footer>
-
+ 
 <a href="https://wa.me/254114114131" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
-
+ 
 <script src="script.js"></script>
-<script>
-  (function() {
-    const buyerTab = document.getElementById('signupBuyerTab');
-    const sellerTab = document.getElementById('signupSellerTab');
-    const buyerPanel = document.getElementById('signupBuyerPanel');
-    const sellerPanel = document.getElementById('signupSellerPanel');
-    buyerTab.addEventListener('click', () => {
-      buyerTab.classList.add('active'); sellerTab.classList.remove('active');
-      buyerPanel.classList.add('active'); sellerPanel.classList.remove('active');
+ 
+<!-- =========================================================
+     FIREBASE BACKEND — Buyer / Seller account creation
+     Replace firebaseConfig below with YOUR project's config
+     (Firebase Console → Project settings → General → Your apps).
+     Docs: https://firebase.google.com/docs/web/setup
+     ========================================================= -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getAuth, createUserWithEmailAndPassword, GoogleAuthProvider,
+    signInWithPopup, updateProfile, signOut
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import {
+    getFirestore, doc, setDoc, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+ 
+  // ---- 1. YOUR FIREBASE PROJECT CONFIG ----
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+ 
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const googleProvider = new GoogleAuthProvider();
+ 
+  // ---- 2. Role tab switching (buyer / seller) ----
+  const buyerTab = document.getElementById('signupBuyerTab');
+  const sellerTab = document.getElementById('signupSellerTab');
+  const buyerPanel = document.getElementById('signupBuyerPanel');
+  const sellerPanel = document.getElementById('signupSellerPanel');
+  buyerTab.addEventListener('click', () => {
+    buyerTab.classList.add('active'); sellerTab.classList.remove('active');
+    buyerPanel.classList.add('active'); sellerPanel.classList.remove('active');
+  });
+  sellerTab.addEventListener('click', () => {
+    sellerTab.classList.add('active'); buyerTab.classList.remove('active');
+    sellerPanel.classList.add('active'); buyerPanel.classList.remove('active');
+  });
+ 
+  function setStatus(el, message, type) {
+    el.textContent = message;
+    el.className = 'auth-status' + (type ? ' ' + type : '');
+  }
+ 
+  // Track a Google-authenticated user separately per form, so we know
+  // whether to create a new email/password account or just attach
+  // profile data to the Google account that's already signed in.
+  let googleUser = { buyer: null, seller: null };
+ 
+  function wireGoogleButton(role, btnId, lockedId, emailId, cancelId, emailGroupId, passwordGroupId) {
+    const btn = document.getElementById(btnId);
+    const locked = document.getElementById(lockedId);
+    const emailSpan = document.getElementById(emailId);
+    const cancelBtn = document.getElementById(cancelId);
+    const emailGroup = emailGroupId ? document.getElementById(emailGroupId) : null;
+    const passwordGroup = document.getElementById(passwordGroupId);
+    const statusEl = document.getElementById(role + 'Status');
+ 
+    btn.addEventListener('click', async () => {
+      try {
+        setStatus(statusEl, 'Opening Google sign-in…', 'info');
+        const result = await signInWithPopup(auth, googleProvider);
+        googleUser[role] = result.user;
+        emailSpan.textContent = result.user.email;
+        locked.classList.add('show');
+        btn.style.display = 'none';
+        if (emailGroup) emailGroup.style.display = 'none';
+        passwordGroup.style.display = 'none';
+        setStatus(statusEl, 'Google sign-in successful. Fill in the rest of your details below.', 'success');
+      } catch (err) {
+        setStatus(statusEl, 'Google sign-in failed: ' + err.message, 'error');
+      }
     });
-    sellerTab.addEventListener('click', () => {
-      sellerTab.classList.add('active'); buyerTab.classList.remove('active');
-      sellerPanel.classList.add('active'); buyerPanel.classList.remove('active');
+ 
+    cancelBtn.addEventListener('click', async () => {
+      googleUser[role] = null;
+      locked.classList.remove('show');
+      btn.style.display = 'flex';
+      if (emailGroup) emailGroup.style.display = 'block';
+      passwordGroup.style.display = 'block';
+      setStatus(statusEl, '', '');
+      try { await signOut(auth); } catch (e) { /* ignore */ }
     });
-    [buyerPanel, sellerPanel].forEach(form => {
-      form.addEventListener('submit', e => {
-        e.preventDefault();
-        alert('This is a demo sign-up form. Connect it to your backend/database to go live.');
+  }
+ 
+  wireGoogleButton('buyer', 'googleBuyerBtn', 'googleBuyerLocked', 'googleBuyerEmail', 'googleBuyerCancel', 'buyerEmailGroup', 'buyerPasswordGroup');
+  wireGoogleButton('seller', 'googleSellerBtn', 'googleSellerLocked', 'googleSellerEmail', 'googleSellerCancel', null, 'sellerPasswordGroup');
+ 
+  // ---- 3. Buyer sign-up submit ----
+  const buyerSubmitBtn = document.getElementById('buyerSubmitBtn');
+  const buyerStatus = document.getElementById('buyerStatus');
+  buyerPanel.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const f = buyerPanel;
+    const businessName = f.businessName.value.trim();
+    const businessAddress = f.businessAddress.value.trim();
+    const regNumber = f.regNumber.value.trim();
+    const idNumber = f.idNumber.value.trim();
+    const usingGoogle = !!googleUser.buyer;
+    const email = usingGoogle ? googleUser.buyer.email : f.email.value.trim();
+    const password = usingGoogle ? null : f.password.value;
+ 
+    if (!businessName || !businessAddress || !regNumber || !idNumber || !email || (!usingGoogle && !password)) {
+      setStatus(buyerStatus, 'Please fill in all required fields.', 'error');
+      return;
+    }
+ 
+    buyerSubmitBtn.disabled = true;
+    setStatus(buyerStatus, 'Creating your buyer account…', 'info');
+ 
+    try {
+      let user;
+      if (usingGoogle) {
+        user = googleUser.buyer;
+      } else {
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        user = cred.user;
+        await updateProfile(user, { displayName: businessName });
+      }
+ 
+      await setDoc(doc(db, 'buyers', user.uid), {
+        role: 'buyer',
+        businessName,
+        businessAddress,
+        regNumber,
+        idNumber,
+        email,
+        authProvider: usingGoogle ? 'google' : 'password',
+        createdAt: serverTimestamp()
       });
-    });
-  })();
+ 
+      setStatus(buyerStatus, 'Account created! Redirecting you to log in…', 'success');
+      await signOut(auth);
+      setTimeout(() => { window.location.href = 'login.html?created=buyer'; }, 1200);
+    } catch (err) {
+      setStatus(buyerStatus, err.message, 'error');
+      buyerSubmitBtn.disabled = false;
+    }
+  });
+ 
+  // ---- 4. Seller sign-up submit ----
+  const sellerSubmitBtn = document.getElementById('sellerSubmitBtn');
+  const sellerStatus = document.getElementById('sellerStatus');
+  sellerPanel.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const f = sellerPanel;
+    const fullName = f.fullName.value.trim();
+    const idNumber = f.idNumber.value.trim();
+    const mpesa = f.mpesa.value.trim();
+    const usingGoogle = !!googleUser.seller;
+    const emailInput = f.email.value.trim();
+    const email = usingGoogle ? googleUser.seller.email : (emailInput || null);
+    const password = usingGoogle ? null : f.password.value;
+ 
+    if (!fullName || !idNumber || !mpesa || (!usingGoogle && !password)) {
+      setStatus(sellerStatus, 'Please fill in all required fields.', 'error');
+      return;
+    }
+    if (!usingGoogle && !emailInput) {
+      setStatus(sellerStatus, 'An email address is required to create your login (you can still leave it off your public profile later).', 'error');
+      return;
+    }
+ 
+    sellerSubmitBtn.disabled = true;
+    setStatus(sellerStatus, 'Creating your seller account…', 'info');
+ 
+    try {
+      let user;
+      if (usingGoogle) {
+        user = googleUser.seller;
+      } else {
+        const cred = await createUserWithEmailAndPassword(auth, emailInput, password);
+        user = cred.user;
+        await updateProfile(user, { displayName: fullName });
+      }
+ 
+      await setDoc(doc(db, 'sellers', user.uid), {
+        role: 'seller',
+        fullName,
+        idNumber,
+        mpesa,
+        email: email || null,
+        authProvider: usingGoogle ? 'google' : 'password',
+        createdAt: serverTimestamp()
+      });
+ 
+      setStatus(sellerStatus, 'Account created! Redirecting you to log in…', 'success');
+      await signOut(auth);
+      setTimeout(() => { window.location.href = 'login.html?created=seller'; }, 1200);
+    } catch (err) {
+      setStatus(sellerStatus, err.message, 'error');
+      sellerSubmitBtn.disabled = false;
+    }
+  });
 </script>
 </body>
 </html>
