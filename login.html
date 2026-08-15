@@ -8,11 +8,40 @@
 <link rel="canonical" href="https://livingfountainsfarm.co.ke/login.html">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="icon" type="image/png" href=''favicon.png">
+<link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="stylesheet" href="style.css">
+<style>
+  .google-btn {
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    width:100%; padding:12px; border-radius:999px; border:1px solid var(--lf-border);
+    background:#fff; font-family:var(--font-body); font-weight:600; font-size:0.9rem;
+    color:var(--lf-ink); cursor:pointer;
+  }
+  .google-btn:hover { border-color:var(--lf-teal); }
+  .google-btn img { width:18px; height:18px; }
+  .auth-status { margin-top:14px; font-size:0.88rem; text-align:center; min-height:20px; }
+  .auth-status.error { color:#a33; }
+  .auth-status.success { color:var(--lf-teal); }
+  .auth-status.info { color:var(--lf-mist); }
+  button[disabled] { opacity:0.6; cursor:not-allowed; }
+ 
+  .session-card { display:none; text-align:center; }
+  .session-card.show { display:block; }
+  .session-avatar {
+    width:64px; height:64px; border-radius:50%; margin:0 auto 16px;
+    background:var(--lf-teal); color:#fff; display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display); font-size:1.6rem; font-weight:600;
+  }
+  .session-role-badge {
+    display:inline-block; padding:4px 14px; border-radius:999px; font-family:var(--font-mono);
+    font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase;
+    background:var(--lf-teal-tint); color:var(--lf-teal-dark); margin-bottom:14px;
+  }
+  #loginForms.hide { display:none; }
+</style>
 </head>
 <body>
-
+ 
 <header class="header">
   <div class="navbar">
     <a href="index.html" class="logo-link">
@@ -34,84 +63,222 @@
     <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
   </div>
 </header>
-
+ 
 <div class="auth-shell">
   <div class="auth-card">
-    <div class="auth-header">
-      <span class="eyebrow">Welcome back</span>
-      <h2 style="margin-bottom:6px;">Log in to your account</h2>
-      <p style="color:var(--lf-mist); margin:0;">Choose your account type to continue.</p>
+ 
+    <!-- Shown when a user IS logged in -->
+    <div class="session-card" id="sessionCard">
+      <div class="session-avatar" id="sessionAvatar">?</div>
+      <span class="session-role-badge" id="sessionRoleBadge">Account</span>
+      <h2 style="margin-bottom:4px;" id="sessionName">Welcome back</h2>
+      <p style="color:var(--lf-mist);" id="sessionEmail"></p>
+      <button class="btn btn-outline btn-block mt-30" id="signOutBtn">Log out</button>
     </div>
-
-    <div class="role-toggle">
-      <button class="role-btn active" data-role="buyer" id="loginBuyerTab">As a Buyer</button>
-      <button class="role-btn" data-role="seller" id="loginSellerTab">As a Seller</button>
+ 
+    <!-- Shown when NO one is logged in -->
+    <div id="loginForms">
+      <div class="auth-header">
+        <span class="eyebrow">Welcome back</span>
+        <h2 style="margin-bottom:6px;">Log in to your account</h2>
+        <p style="color:var(--lf-mist); margin:0;">Choose your account type to continue.</p>
+      </div>
+ 
+      <div class="role-toggle">
+        <button class="role-btn active" data-role="buyer" id="loginBuyerTab">As a Buyer</button>
+        <button class="role-btn" data-role="seller" id="loginSellerTab">As a Seller</button>
+      </div>
+ 
+      <!-- Buyer login -->
+      <form class="auth-panel active" id="loginBuyerPanel">
+        <div class="form-group">
+          <label>Business Email *</label>
+          <input type="email" name="email" placeholder="you@business.co.ke" required>
+        </div>
+        <div class="form-group">
+          <label>Password *</label>
+          <input type="password" name="password" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="buyerLoginBtn">Log in as Buyer</button>
+      </form>
+ 
+      <!-- Seller login -->
+      <form class="auth-panel" id="loginSellerPanel">
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" name="email" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+          <label>Password *</label>
+          <input type="password" name="password" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="sellerLoginBtn">Log in as Seller</button>
+      </form>
+ 
+      <div class="auth-status" id="loginStatus"></div>
+      <div class="auth-divider">or</div>
+      <button type="button" class="google-btn" id="googleLoginBtn">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="">
+        Continue with Google
+      </button>
+ 
+      <p class="auth-switch">Don't have an account? <a href="get-started.html">Get started</a></p>
     </div>
-
-    <!-- Buyer login -->
-    <form class="auth-panel active" id="loginBuyerPanel">
-      <div class="form-group">
-        <label>Business Email *</label>
-        <input type="email" name="email" placeholder="you@business.co.ke" required>
-      </div>
-      <div class="form-group">
-        <label>Password *</label>
-        <input type="password" name="password" placeholder="••••••••" required>
-      </div>
-      <button type="submit" class="btn btn-primary btn-block">Log in as Buyer</button>
-    </form>
-
-    <!-- Seller login -->
-    <form class="auth-panel" id="loginSellerPanel">
-      <div class="form-group">
-        <label>M-PESA Mobile Number *</label>
-        <input type="tel" name="mpesa" placeholder="07XX XXX XXX" required>
-      </div>
-      <div class="form-group">
-        <label>Password *</label>
-        <input type="password" name="password" placeholder="••••••••" required>
-      </div>
-      <button type="submit" class="btn btn-primary btn-block">Log in as Seller</button>
-    </form>
-
-    <div class="auth-divider">or</div>
-    <a href="https://wa.me/254114114131" class="btn btn-outline btn-block" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> Get help via WhatsApp</a>
-
-    <p class="auth-switch">Don't have an account? <a href="get-started.html">Get started</a></p>
+ 
   </div>
 </div>
-
+ 
 <footer class="footer">
   <div class="container footer-bottom" style="border-top:none; padding-top:30px;">
     <p>© 2026 Living Fountains Farm. All rights reserved.</p>
     <a href="privacy-policy.html">Privacy Policy</a>
   </div>
 </footer>
-
+ 
 <a href="https://wa.me/254114114131" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
-
+ 
 <script src="script.js"></script>
-<script>
-  (function() {
-    const buyerTab = document.getElementById('loginBuyerTab');
-    const sellerTab = document.getElementById('loginSellerTab');
-    const buyerPanel = document.getElementById('loginBuyerPanel');
-    const sellerPanel = document.getElementById('loginSellerPanel');
-    buyerTab.addEventListener('click', () => {
-      buyerTab.classList.add('active'); sellerTab.classList.remove('active');
-      buyerPanel.classList.add('active'); sellerPanel.classList.remove('active');
-    });
-    sellerTab.addEventListener('click', () => {
-      sellerTab.classList.add('active'); buyerTab.classList.remove('active');
-      sellerPanel.classList.add('active'); buyerPanel.classList.remove('active');
-    });
-    [buyerPanel, sellerPanel].forEach(form => {
-      form.addEventListener('submit', e => {
-        e.preventDefault();
-        alert('This is a demo login form. Connect it to your authentication backend to go live.');
-      });
-    });
-  })();
+ 
+<!-- =========================================================
+     FIREBASE BACKEND — Buyer / Seller log in, session, log out
+     Replace firebaseConfig below with YOUR project's config
+     (Firebase Console → Project settings → General → Your apps).
+     Must match the SAME config used in get-started.html.
+     Docs: https://firebase.google.com/docs/web/setup
+     ========================================================= -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getAuth, signInWithEmailAndPassword, GoogleAuthProvider,
+    signInWithPopup, onAuthStateChanged, signOut
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import {
+    getFirestore, doc, getDoc
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+ 
+  // ---- 1. YOUR FIREBASE PROJECT CONFIG (same project as get-started.html) ----
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+ 
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const googleProvider = new GoogleAuthProvider();
+ 
+  // ---- 2. Role tab switching (buyer / seller) ----
+  const buyerTab = document.getElementById('loginBuyerTab');
+  const sellerTab = document.getElementById('loginSellerTab');
+  const buyerPanel = document.getElementById('loginBuyerPanel');
+  const sellerPanel = document.getElementById('loginSellerPanel');
+  buyerTab.addEventListener('click', () => {
+    buyerTab.classList.add('active'); sellerTab.classList.remove('active');
+    buyerPanel.classList.add('active'); sellerPanel.classList.remove('active');
+  });
+  sellerTab.addEventListener('click', () => {
+    sellerTab.classList.add('active'); buyerTab.classList.remove('active');
+    sellerPanel.classList.add('active'); buyerPanel.classList.remove('active');
+  });
+ 
+  const loginStatus = document.getElementById('loginStatus');
+  function setStatus(message, type) {
+    loginStatus.textContent = message;
+    loginStatus.className = 'auth-status' + (type ? ' ' + type : '');
+  }
+ 
+  // ---- 3. Email / password login (buyer + seller share the same call) ----
+  async function handleEmailLogin(e, btn) {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value.trim();
+    const password = form.password.value;
+    btn.disabled = true;
+    setStatus('Logging in…', 'info');
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      setStatus('Logged in successfully.', 'success');
+      // onAuthStateChanged below will render the session card
+    } catch (err) {
+      setStatus(err.message, 'error');
+    } finally {
+      btn.disabled = false;
+    }
+  }
+  buyerPanel.addEventListener('submit', (e) => handleEmailLogin(e, document.getElementById('buyerLoginBtn')));
+  sellerPanel.addEventListener('submit', (e) => handleEmailLogin(e, document.getElementById('sellerLoginBtn')));
+ 
+  // ---- 4. Google login ----
+  document.getElementById('googleLoginBtn').addEventListener('click', async () => {
+    setStatus('Opening Google sign-in…', 'info');
+    try {
+      await signInWithPopup(auth, googleProvider);
+      setStatus('Logged in successfully.', 'success');
+    } catch (err) {
+      setStatus(err.message, 'error');
+    }
+  });
+ 
+  // ---- 5. Session state: show account card + log out when signed in ----
+  const sessionCard = document.getElementById('sessionCard');
+  const loginForms = document.getElementById('loginForms');
+  const sessionAvatar = document.getElementById('sessionAvatar');
+  const sessionRoleBadge = document.getElementById('sessionRoleBadge');
+  const sessionName = document.getElementById('sessionName');
+  const sessionEmail = document.getElementById('sessionEmail');
+ 
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      sessionCard.classList.remove('show');
+      loginForms.classList.remove('hide');
+      return;
+    }
+ 
+    // Figure out whether this user is a buyer or a seller by checking Firestore.
+    let role = 'account';
+    let profile = null;
+    try {
+      const buyerSnap = await getDoc(doc(db, 'buyers', user.uid));
+      if (buyerSnap.exists()) { role = 'buyer'; profile = buyerSnap.data(); }
+      if (!profile) {
+        const sellerSnap = await getDoc(doc(db, 'sellers', user.uid));
+        if (sellerSnap.exists()) { role = 'seller'; profile = sellerSnap.data(); }
+      }
+    } catch (err) {
+      console.warn('Could not read profile:', err.message);
+    }
+ 
+    const displayName = (profile && (profile.businessName || profile.fullName)) || user.displayName || user.email;
+    sessionAvatar.textContent = (displayName || '?').trim().charAt(0).toUpperCase();
+    sessionRoleBadge.textContent = role === 'buyer' ? 'Buyer account' : role === 'seller' ? 'Seller account' : 'Account';
+    sessionName.textContent = 'Welcome, ' + displayName;
+    sessionEmail.textContent = user.email || '';
+ 
+    if (!profile) {
+      // Signed in (e.g. via Google) but no buyer/seller profile exists yet.
+      sessionName.textContent = 'Almost there, ' + (user.displayName || user.email);
+      sessionEmail.textContent = 'Finish setting up your account to continue.';
+    }
+ 
+    sessionCard.classList.add('show');
+    loginForms.classList.add('hide');
+  });
+ 
+  // ---- 6. Log out ----
+  document.getElementById('signOutBtn').addEventListener('click', async () => {
+    await signOut(auth);
+  });
+ 
+  // ---- 7. Friendly message if redirected here right after signing up ----
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('created')) {
+    setStatus('Account created! Log in below to continue.', 'success');
+  }
 </script>
 </body>
 </html>
+ 
